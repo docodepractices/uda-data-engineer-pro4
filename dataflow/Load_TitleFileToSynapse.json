@@ -1,0 +1,53 @@
+{
+	"name": "Load_TitleFileToSynapse",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureBlob_TitleMaster",
+						"type": "DatasetReference"
+					},
+					"name": "SourceTittle",
+					"description": "SourceTittle"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlDW_Title",
+						"type": "DatasetReference"
+					},
+					"name": "SinkTittle",
+					"description": "Sink_dbo.Tittle"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          TitleCode as string,",
+				"          TitleDescription as string",
+				"     ),",
+				"     allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     limit: 100,",
+				"     ignoreNoFilesFound: false) ~> SourceTittle",
+				"SourceTittle sink(allowSchemaDrift: false,",
+				"     validateSchema: true,",
+				"     input(",
+				"          TitleCode as string,",
+				"          TitleDescription as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> SinkTittle"
+			]
+		}
+	}
+}

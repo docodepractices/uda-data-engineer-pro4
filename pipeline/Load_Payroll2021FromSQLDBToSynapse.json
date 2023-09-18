@@ -1,0 +1,42 @@
+{
+	"name": "Load_Payroll2021FromSQLDBToSynapse",
+	"properties": {
+		"activities": [
+			{
+				"name": "Data Flow Load Payroll2021",
+				"description": "Data Flow Load Payroll2021 From SQLDB To Synapse",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "Load_SQLNycpayrollToSynapse",
+						"type": "DataFlowReference"
+					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "AzureDataLakeStorage1",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "adlsnycpayroll-trindh-lastintial/dirstaging"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2023-09-18T08:11:01Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
